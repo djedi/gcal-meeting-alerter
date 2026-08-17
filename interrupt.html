@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Calendar reminder</title>
+  <link rel="stylesheet" href="common.css">
+  <style>
+    html { background: #102b4c; }
+    body {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      background: radial-gradient(circle at top, #3979c4, #102b4c 72%);
+      color: #fff;
+    }
+    main {
+      width: min(82vw, 760px);
+      padding: 20px 40px;
+      text-align: center;
+    }
+    .bell {
+      width: clamp(104px, 22vh, 160px);
+      height: clamp(104px, 22vh, 160px);
+      filter: drop-shadow(0 16px 30px rgba(0, 0, 0, .3));
+      animation: ring 1.2s ease-in-out infinite;
+    }
+    .eyebrow {
+      margin: 10px 0 6px;
+      color: #d9e8fa;
+      font-size: 14px;
+      font-weight: 750;
+      letter-spacing: .1em;
+    }
+    .event {
+      margin: 8px 0 16px;
+      font-size: clamp(32px, 4.6vw, 50px);
+      line-height: 1.15;
+      text-wrap: balance;
+    }
+    .actions {
+      display: grid;
+      justify-items: center;
+      gap: 12px;
+    }
+    .snooze-label {
+      margin: 0;
+      color: #d9e8fa;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    .snooze-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(92px, 1fr));
+      gap: 10px;
+      width: min(100%, 560px);
+    }
+    .snooze {
+      min-height: 48px;
+      border: 1px solid rgba(255, 255, 255, .4);
+      background: rgba(255, 255, 255, .14);
+      color: #fff;
+      backdrop-filter: blur(8px);
+    }
+    .snooze:hover, .snooze:focus-visible { background: rgba(255, 255, 255, .25); }
+    .primary {
+      width: min(100%, 560px);
+      min-height: 62px;
+      background: #fff;
+      color: #173b66;
+      font-size: 20px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, .2);
+    }
+    .close {
+      width: min(100%, 560px);
+      min-height: 48px;
+      border: 1px solid rgba(255, 255, 255, .55);
+      background: transparent;
+      color: #fff;
+    }
+    .close:hover, .close:focus-visible { background: rgba(255, 255, 255, .14); }
+    @keyframes ring {
+      0%, 100% { transform: rotate(0); }
+      15% { transform: rotate(8deg); }
+      30% { transform: rotate(-8deg); }
+      45% { transform: rotate(4deg); }
+      60% { transform: rotate(-4deg); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .bell { animation: none; }
+    }
+  </style>
+</head>
+<body>
+  <main role="alert" aria-live="assertive">
+    <img class="bell" src="icons/icon-128.png" alt="">
+    <p class="eyebrow">GOOGLE CALENDAR REMINDER</p>
+    <h1 class="event" id="event-text">Calendar event</h1>
+    <div class="actions">
+      <button class="primary" id="dismiss" type="button">Open Calendar</button>
+      <button class="close" id="close" type="button">Close</button>
+      <p class="snooze-label" id="snooze-label">Remind me again in</p>
+      <div class="snooze-grid" aria-labelledby="snooze-label">
+        <button class="snooze" type="button" data-snooze="30">30 sec</button>
+        <button class="snooze" type="button" data-snooze="60">1 min</button>
+        <button class="snooze" type="button" data-snooze="90">90 sec</button>
+        <button class="snooze" type="button" data-snooze="120">2 min</button>
+      </div>
+    </div>
+  </main>
+  <script src="interrupt.js"></script>
+</body>
+</html>

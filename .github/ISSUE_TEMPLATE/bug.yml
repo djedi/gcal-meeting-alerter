@@ -1,0 +1,51 @@
+name: Bug report
+description: Report a reproducible Calendar Alarm problem
+title: "[Bug]: "
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Do not include private event titles, calendar details, credentials, or Chrome profile data. Security reports belong in GitHub private vulnerability reporting.
+  - type: checkboxes
+    attributes:
+      label: Initial checks
+      options:
+        - label: I searched existing issues.
+          required: true
+        - label: I ran the built-in test alarm.
+          required: true
+        - label: This is not a security vulnerability.
+          required: true
+  - type: textarea
+    attributes:
+      label: What happened?
+      description: Describe the problem without private calendar data.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open ...
+        2. Click ...
+        3. Observe ...
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Calendar Alarm version
+      description: Find this in chrome://extensions.
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Chrome and operating-system versions
+    validations:
+      required: true
+  - type: dropdown
+    attributes:
+      label: Did the built-in test alarm work?
+      options: [Yes, No]
+    validations:
+      required: true

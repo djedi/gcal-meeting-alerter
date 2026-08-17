@@ -1,0 +1,12 @@
+calendar-alarm.zip
+.DS_Store
+node_modules/
+coverage/
+.vscode/
+.env
+.env.*
+!.env.example
+*.crx
+*.pem
+*.key
+npm-debug.log*

@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: Node ${{ matrix.node }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        node: [20, 22, 24]
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v7
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: ${{ matrix.node }}
+      - name: Run syntax and behavior checks
+        run: npm run check
+      - name: Build validated Chrome Web Store package
+        run: npm run package
+      - name: Upload release package
+        if: matrix.node == 24
+        uses: actions/upload-artifact@v7
+        with:
+          name: calendar-alarm-extension
+          path: calendar-alarm.zip
+          if-no-files-found: error
+          retention-days: 14

@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Calendar Alarm privacy</title>
+  <link rel="stylesheet" href="common.css">
+  <style>
+    main { max-width: 720px; margin: 32px auto; }
+    h2 { margin-top: 22px; font-size: 17px; }
+    li { margin: 6px 0; }
+  </style>
+</head>
+<body>
+  <main>
+    <header class="brand">
+      <img src="icons/icon-48.png" alt="">
+      <div>
+        <h1>Calendar Alarm privacy</h1>
+        <p class="muted">Private by design. No analytics, ads, accounts, or developer server.</p>
+        <p class="muted">Effective August 17, 2026. For questions, use the developer support contact on the Chrome Web Store listing.</p>
+      </div>
+    </header>
+    <section class="card">
+      <h2>What Calendar Alarm reads</h2>
+      <p>Calendar Alarm examines text passed to page-created alerts and notifications, plus reminder-dialog text and controls displayed by calendar.google.com, to determine whether they look like reminders. Unrelated text is discarded immediately and is not sent to the extension background or stored. Qualifying reminder text is used only to show the local alert you requested.</p>
+
+      <h2>What stays on your device</h2>
+      <ul>
+        <li>The most recent reminder text and local diagnostic timestamps.</li>
+        <li>Reminder text temporarily stored while a snooze is pending.</li>
+        <li>Your enabled, alarm-window, and sound preferences. Chrome may sync these three settings through your Chrome profile.</li>
+      </ul>
+
+      <h2>What is never sent to us</h2>
+      <p>Calendar Alarm does not transmit reminder text or browsing activity to the developer or any third party. It has no analytics, advertising, tracking, account system, or developer-operated server. User data is not sold.</p>
+
+      <h2>Retention and deletion</h2>
+      <p>A pending snooze is deleted after it fires. Other local data remains until replaced, cleared through Chrome, or removed when you uninstall the extension.</p>
+
+      <h2>Permissions</h2>
+      <p><strong>Alarms</strong> schedules snoozes. <strong>Notifications</strong> shows persistent reminders. <strong>Storage</strong> saves preferences and local reminder state. Access to calendar.google.com is limited to detecting reminders on that site.</p>
+
+      <h2>Limited Use</h2>
+      <p>Calendar Alarm's use of information received from Google services adheres to the Chrome Web Store User Data Policy, including the Limited Use requirements. Data is used only for the extension's disclosed reminder-amplification feature.</p>
+    </section>
+  </main>
+</body>
+</html>

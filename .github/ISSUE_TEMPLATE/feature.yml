@@ -1,0 +1,25 @@
+name: Feature request
+description: Suggest an improvement to Calendar Alarm
+title: "[Feature]: "
+labels: [enhancement]
+body:
+  - type: textarea
+    attributes:
+      label: Problem
+      description: What user problem would this solve?
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Proposed solution
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Permission and privacy impact
+      description: Would this require new Chrome permissions, host access, account data, or network services?
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Alternatives considered
