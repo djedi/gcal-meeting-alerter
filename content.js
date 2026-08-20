@@ -28,7 +28,7 @@
 
   window.addEventListener('message', (event) => {
     if (event.source === window && event.origin === location.origin && event.data?.source === 'calendar-alarm' && ['PAGE_ALERT', 'PAGE_NOTIFICATION'].includes(event.data.type)) {
-      if (core.looksLikeCalendarAlarm(event.data.text, [])) {
+      if (core.shouldReportPageSignal(event.data.type, event.data.text)) {
         report(event.data.text, event.data.type === 'PAGE_NOTIFICATION' ? 'web-notification' : 'page-alert');
       }
     }

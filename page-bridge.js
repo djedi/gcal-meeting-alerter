@@ -26,7 +26,7 @@
         const [title, options = {}] = args;
         const notification = Reflect.construct(target, args, newTarget === window.Notification ? target : newTarget);
         const text = options.body ? `${title}: ${options.body}` : String(title || '');
-        if (looksLikeReminder(text)) post('PAGE_NOTIFICATION', text);
+        post('PAGE_NOTIFICATION', text);
         return notification;
       }
     });
