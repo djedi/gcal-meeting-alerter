@@ -1,12 +1,12 @@
 # Calendar Alarm Privacy Policy
 
-Effective: August 17, 2026
+Effective: August 20, 2026
 
 Calendar Alarm is a browser extension that makes Google Calendar reminders harder to miss. It is designed to work locally in the browser without analytics, advertising, accounts, or a developer-operated server.
 
 ## Data the extension handles
 
-Calendar Alarm examines text passed to page-created alerts and notifications, plus text and controls in reminder dialogs displayed by `calendar.google.com`, to determine whether they look like reminders. Unrelated alert and notification text is discarded immediately and is not sent to the extension's background process or stored. Reminder text can include an event title or other text entered in Google Calendar. The extension uses qualifying text only to recognize a reminder and display the requested local notification or alarm window.
+Calendar Alarm examines text passed to page-created alerts, page-created Web Notifications, and reminder dialogs displayed by `calendar.google.com`. Reminder-like alerts and dialogs are used as signals; unrelated alert/dialog text is discarded immediately. Because Google Calendar uses page-created Web Notifications as its desktop reminder channel and their titles may contain only an event name, Calendar Alarm treats every page-created Web Notification on `calendar.google.com` as a reminder signal. Notification text can include an event title, time, or other text entered in Google Calendar.
 
 The extension stores the following information:
 

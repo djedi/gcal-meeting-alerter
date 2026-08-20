@@ -3,7 +3,7 @@
   "name": "Calendar Alarm",
   "short_name": "Calendar Alarm",
   "description": "Make Google Calendar reminders harder to miss with high-visibility notifications and an optional alarm window.",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "minimum_chrome_version": "111",
   "homepage_url": "https://github.com/djedi/gcal-meeting-alerter",
   "icons": {

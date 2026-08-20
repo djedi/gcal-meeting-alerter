@@ -47,7 +47,7 @@ Load the repository as an unpacked extension from `chrome://extensions`, enable 
 
 - Match the existing dependency-free JavaScript style.
 - Prefer small pure helpers for logic that can be tested with Node's built-in test runner.
-- Preserve unrelated Google Calendar alerts and notifications.
+- Preserve unrelated Google Calendar alerts and native notification behavior.
 - Avoid broad reminder heuristics that can match settings or error messages.
 - Keep extension pages accessible and free of remote scripts or styles.
 

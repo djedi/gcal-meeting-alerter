@@ -52,6 +52,12 @@ test('recognizes Calendar alarm dialogs without matching ordinary dialogs', () =
   }
 });
 
+test('accepts page-created Calendar notifications without reminder keywords', () => {
+  const core = loadCore();
+  assert.equal(core.shouldReportPageSignal('PAGE_NOTIFICATION', 'Design review: 10:00 AM – 10:30 AM'), true);
+  assert.equal(core.shouldReportPageSignal('PAGE_ALERT', 'Reminder settings could not be saved'), false);
+});
+
 test('dedupe keys are stable inside a time bucket and change later', () => {
   const core = loadCore();
   assert.equal(core.dedupeKey(' Team sync ', 120_001), core.dedupeKey('Team  sync', 149_999));
@@ -183,7 +189,7 @@ test('page bridge replaces reminder alerts but preserves unrelated Calendar aler
   assert.equal(posted[0].text, 'Standup starts in 5 minutes');
 });
 
-test('page bridge forwards only reminder-like page notifications', () => {
+test('page bridge forwards Calendar notifications whose text is only an event title and time', () => {
   const posted = [];
   class NativeNotification {
     constructor(title, options) { this.title = title; this.options = options; }
@@ -198,13 +204,10 @@ test('page bridge forwards only reminder-like page notifications', () => {
     location: { origin: 'https://calendar.google.com' }
   });
 
-  new window.Notification('Calendar update', { body: 'Settings saved' });
-  assert.deepEqual(posted, []);
-
-  const notification = new window.Notification('Calendar reminder', { body: 'Team sync starts now' });
-  assert.equal(notification.title, 'Calendar reminder');
+  const notification = new window.Notification('Design review', { body: '10:00 AM – 10:30 AM' });
+  assert.equal(notification.title, 'Design review');
   assert.equal(posted[0].type, 'PAGE_NOTIFICATION');
-  assert.equal(posted[0].text, 'Calendar reminder: Team sync starts now');
+  assert.equal(posted[0].text, 'Design review: 10:00 AM – 10:30 AM');
 });
 
 test('page bridge runs directly in the page MAIN world before Calendar starts', () => {

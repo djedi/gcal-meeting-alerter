@@ -42,7 +42,7 @@ After changing source, select **Reload** on the extension card and refresh any o
 Calendar Alarm uses layered, local-only detection:
 
 1. A Manifest V3 content script watches supported Calendar reminder dialogs.
-2. A narrowly filtered MAIN-world bridge observes reminder-like page alerts and page-created notifications while preserving unrelated Calendar behavior.
+2. A MAIN-world bridge narrowly filters page alerts and forwards Calendar's page-created Web Notifications, whose text may contain only an event title and time.
 3. The service worker deduplicates signals and creates the Chrome notification and optional alarm window.
 4. `chrome.alarms` provides durable short snoozes even when the service worker suspends.
 
@@ -54,7 +54,7 @@ The extension requests only `alarms`, `notifications`, and `storage`, with host 
 - No analytics, tracking, advertising, or external application server.
 - No Google account or Calendar API access.
 - No browsing-history permission.
-- Unrelated alert/notification text is discarded immediately.
+- Unrelated page-alert and dialog text is discarded immediately; Calendar-created Web Notifications are treated as reminder signals.
 
 Read the complete [privacy policy](PRIVACY.md) and [security policy](SECURITY.md).
 

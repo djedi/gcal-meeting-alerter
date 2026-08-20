@@ -1,6 +1,6 @@
 {
   "name": "calendar-alarm",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "private": true,
   "description": "A privacy-first Google Calendar reminder amplifier.",
   "author": "Dustin Davis",

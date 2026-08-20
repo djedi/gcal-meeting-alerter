@@ -47,7 +47,7 @@ The extension does not request the tabs permission. Chrome permits opening and f
 
 Data handled:
 
-- Website content: Calendar Alarm locally examines page-created alert and notification text plus reminder-dialog content on calendar.google.com to identify reminders. Unrelated text is discarded immediately; qualifying reminder text can include an event title.
+- Website content: Calendar Alarm locally examines page-created alert and notification text plus reminder-dialog content on calendar.google.com. Unrelated alert/dialog text is discarded immediately. Every page-created Web Notification on Calendar is treated as a reminder signal because its title may contain only an event name; qualifying text can include an event title and time.
 
 Data handling declarations:
 

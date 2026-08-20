@@ -18,12 +18,12 @@
       <div>
         <h1>Calendar Alarm privacy</h1>
         <p class="muted">Private by design. No analytics, ads, accounts, or developer server.</p>
-        <p class="muted">Effective August 17, 2026. For questions, use the developer support contact on the Chrome Web Store listing.</p>
+        <p class="muted">Effective August 20, 2026. For questions, use the developer support contact on the Chrome Web Store listing.</p>
       </div>
     </header>
     <section class="card">
       <h2>What Calendar Alarm reads</h2>
-      <p>Calendar Alarm examines text passed to page-created alerts and notifications, plus reminder-dialog text and controls displayed by calendar.google.com, to determine whether they look like reminders. Unrelated text is discarded immediately and is not sent to the extension background or stored. Qualifying reminder text is used only to show the local alert you requested.</p>
+      <p>Calendar Alarm examines page-created alerts, page-created Web Notifications, and reminder dialogs displayed by calendar.google.com. Unrelated alert/dialog text is discarded immediately. Because Google Calendar uses page-created Web Notifications as its desktop reminder channel and their titles may contain only an event name, every page-created Web Notification on calendar.google.com is treated as a reminder signal.</p>
 
       <h2>What stays on your device</h2>
       <ul>

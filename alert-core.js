@@ -12,6 +12,10 @@
     return /snooze/i.test(labels) && /dismiss|close/i.test(labels) || ALARM_WORDS.test(normalized);
   }
 
+  function shouldReportPageSignal(type, text) {
+    return type === 'PAGE_NOTIFICATION' || looksLikeCalendarAlarm(text, []);
+  }
+
   function hash(value) {
     let result = 2166136261;
     for (const character of value) {
@@ -26,5 +30,5 @@
     return `${hash(normalizeText(text).toLowerCase())}:${bucket}`;
   }
 
-  root.CalendarAlarmCore = { normalizeText, looksLikeCalendarAlarm, dedupeKey };
+  root.CalendarAlarmCore = { normalizeText, looksLikeCalendarAlarm, shouldReportPageSignal, dedupeKey };
 })(globalThis);
