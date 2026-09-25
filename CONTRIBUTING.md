@@ -9,6 +9,8 @@ Thanks for helping make Calendar reminders harder to miss.
 - Do not include private event titles, calendar details, OAuth credentials, or Chrome profile data.
 - Report security issues privately as described in [SECURITY.md](SECURITY.md), not in a public issue.
 
+Feature ideas and quick questions are welcome on X: [@DustinDavis](https://x.com/DustinDavis).
+
 ## Development setup
 
 Requirements:

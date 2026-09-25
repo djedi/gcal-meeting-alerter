@@ -27,6 +27,10 @@ Google's Calendar notification help: https://support.google.com/calendar/answer/
 
 Calendar Alarm can amplify only reminder signals surfaced by an open Google Calendar page. Browser tab freezing or changes to Google Calendar's reminder implementation can prevent a page-based detector from seeing a reminder. The extension does not access the Google Calendar API.
 
+## Questions and feature ideas
+
+Ask questions or suggest features on X: [@DustinDavis](https://x.com/DustinDavis). Follow for updates.
+
 ## Privacy and bug reports
 
 Review [PRIVACY.md](PRIVACY.md) before sending a report. Do not include private event titles or calendar details. Use the support contact on the Chrome Web Store listing and include:

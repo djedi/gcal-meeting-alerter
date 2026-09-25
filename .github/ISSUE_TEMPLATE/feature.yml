@@ -3,6 +3,9 @@ description: Suggest an improvement to Calendar Alarm
 title: "[Feature]: "
 labels: [enhancement]
 body:
+  - type: markdown
+    attributes:
+      value: "Prefer a quick chat? Share ideas with [@DustinDavis on X](https://x.com/DustinDavis)."
   - type: textarea
     attributes:
       label: Problem

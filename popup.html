@@ -40,6 +40,8 @@
     .row { display: flex; gap: 8px; }
     .row .cmd { flex: 1; }
     .footer { margin: 12px 0 0; text-align: center; color: var(--green-dim); font-size: 11px; }
+    .credit { margin: 6px 0 0; text-align: center; color: var(--green-dim); font-size: 11px; }
+    .credit a { color: var(--green); font-weight: 700; }
     @media (prefers-reduced-motion: reduce) { .pulse { animation: none; } }
   </style>
 </head>
@@ -101,7 +103,8 @@
       <button class="cmd" id="open-calendar" type="button">open calendar</button>
       <button class="cmd" id="open-options" type="button">config</button>
     </div>
-    <p class="footer"><a href="https://support.google.com/calendar/answer/37242" target="_blank" rel="noopener">troubleshoot</a> · <a href="privacy.html" target="_blank">privacy</a> · no creds. no servers. no tracking.</p>
+    <p class="footer"><a href="https://support.google.com/calendar/answer/37242" target="_blank" rel="noopener">troubleshoot</a> · <a href="privacy.html" target="_blank">privacy</a> · no creds. no servers.</p>
+    <p class="credit">built by <a href="https://x.com/DustinDavis" target="_blank" rel="noopener">@DustinDavis</a> · <a href="https://x.com/intent/follow?screen_name=DustinDavis" target="_blank" rel="noopener">follow</a> · <a href="https://x.com/intent/post?text=%40DustinDavis%20feature%20idea%20for%20Calendar%20Alarm%3A%20" target="_blank" rel="noopener">feature ideas</a></p>
   </main>
   <script src="rain.js"></script>
   <script src="popup.js"></script>

@@ -14,6 +14,7 @@
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-33ff66.svg" alt="License: MIT"></a>
   <a href="manifest.json"><img src="https://img.shields.io/badge/Chrome-Manifest%20V3-4285F4.svg" alt="Manifest V3"></a>
   <img src="https://img.shields.io/badge/dependencies-0-33ff66.svg" alt="Zero runtime dependencies">
+  <a href="https://x.com/DustinDavis"><img src="https://img.shields.io/badge/follow-%40DustinDavis-000000?logo=x&logoColor=white" alt="Follow @DustinDavis on X"></a>
 </p>
 
 <p align="center">
@@ -146,12 +147,22 @@ After editing source, click **Reload** on the extension card in `chrome://extens
 | `popup.*` / `options.*` | Toolbar popup and settings page |
 | `terminal.css` / `rain.js` | Shared theme and Matrix code rain |
 
+## Feature requests & feedback
+
+I build developer tools like this in the open and post about them on X. If you have a feature idea, find a reminder that slipped through, or just want to say it saved you from missing a meeting, reach out:
+
+- 💡 **[Post a feature request to @DustinDavis](https://x.com/intent/post?text=%40DustinDavis%20feature%20idea%20for%20Calendar%20Alarm%3A%20)**
+- 🐦 **[Follow @DustinDavis on X](https://x.com/intent/follow?screen_name=DustinDavis)** for updates and new tools
+- 🐛 Bugs with steps to reproduce are best as a [GitHub issue](https://github.com/djedi/gcal-meeting-alerter/issues/new/choose)
+
+If Calendar Alarm is useful to you, a ⭐ on this repo or a post on X helps other people find it.
+
 ## Contributing
 
 Contributions are welcome. Read [CONTRIBUTING.md](CONTRIBUTING.md) and the [Code of Conduct](CODE_OF_CONDUCT.md), and report vulnerabilities privately per [SECURITY.md](SECURITY.md). See the [changelog](CHANGELOG.md) for release history.
 
 ## License
 
-[MIT](LICENSE) © Dustin Davis
+[MIT](LICENSE) © Dustin Davis ([@DustinDavis](https://x.com/DustinDavis))
 
 Google Calendar is a trademark of Google LLC. Calendar Alarm is an independent project and is not affiliated with or endorsed by Google.

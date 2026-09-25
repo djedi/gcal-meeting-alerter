@@ -16,7 +16,8 @@ When Google Calendar displays a supported reminder, Calendar Alarm requests a lo
 Features:
 
 - Long-lived Chrome notifications where the browser and operating system support them
-- Optional focused 900×600 alarm window
+- Optional full-screen alarm window with a repeating chime
+- Keeps a pinned Google Calendar tab open and awake so reminders can fire
 - Short, durable snoozes powered by Chrome alarms
 - An Open Calendar button in the alarm window that returns to the Calendar tab that raised the reminder
 - A separate Close action when you do not want to open Calendar or snooze
@@ -27,6 +28,8 @@ Features:
 Important limitation: Calendar Alarm amplifies reminders that Google Calendar surfaces in an open Calendar page. It does not access the Google Calendar API, independently read your calendar, or create its own reminder schedule. Keep a Google Calendar tab open and make sure Calendar, Chrome, and operating-system notifications are enabled.
 
 Privacy by design: reminder text is processed and stored locally in Chrome only as needed to show the latest alert or a pending snooze. It is not sent to the developer or third parties.
+
+Built by Dustin Davis. Feature ideas and questions are welcome on X: @DustinDavis (https://x.com/DustinDavis). Open source at https://github.com/djedi/gcal-meeting-alerter
 
 Google Calendar is a trademark of Google LLC. Calendar Alarm is an independent extension and is not affiliated with or endorsed by Google.
 
