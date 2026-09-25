@@ -7,7 +7,7 @@
 - [x] 16, 32, 48, and 128 px runtime icons
 - [x] Detailed store listing and permission justifications
 - [x] Privacy policy source and in-extension privacy disclosure
-- [x] Required 1280×800 screenshot
+- [x] Three 1280×800 screenshots
 - [x] 440×280 small promo tile
 - [x] Automated syntax, behavior, metadata, artwork, and ZIP validation
 - [x] Upload ZIP excludes tests, source artwork, store artwork, and development files
@@ -27,7 +27,7 @@
 - [ ] Upload `calendar-alarm.zip` in the Chrome Web Store Developer Dashboard.
 - [ ] Copy product details and detailed description from `store-assets/LISTING.md`.
 - [ ] Select Productivity and English (United States).
-- [ ] Upload `store-assets/screenshot-alarm-1280x800.png`.
+- [ ] Upload the three 1280×800 screenshots: `screenshot-alarm`, `screenshot-popup`, and `screenshot-settings` in `store-assets/`.
 - [ ] Upload `store-assets/small-promo-440x280.png`.
 - [ ] Confirm the 128 px icon rendered from the package.
 

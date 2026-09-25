@@ -6,22 +6,34 @@
   <style>
     * { box-sizing: border-box; }
     html, body { width: 440px; height: 280px; margin: 0; overflow: hidden; }
-    body { display: grid; place-items: center; color: white; background: radial-gradient(circle at 82% 5%, #3979c4 0, #173b66 48%, #102b4c 100%); font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; }
-    main { width: 100%; display: grid; grid-template-columns: 118px 1fr; align-items: center; gap: 22px; padding: 32px; }
-    img { width: 112px; height: 112px; border-radius: 24px; filter: drop-shadow(0 15px 20px rgba(0,0,0,.28)); }
-    h1 { margin: 0 0 8px; font-size: 31px; line-height: 1.02; letter-spacing: -.03em; }
-    p { margin: 0; color: #d9e8fa; font-size: 16px; line-height: 1.35; font-weight: 650; }
-    .pill { display: inline-block; margin-top: 16px; padding: 7px 12px; border-radius: 999px; color: #173b66; background: white; font-size: 12px; font-weight: 800; }
+    body { position: relative; display: grid; place-items: center; color: #33ff66; background: #020803; font-family: "JetBrains Mono", "SF Mono", ui-monospace, Menlo, monospace; }
+    body::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(0deg, rgba(0,0,0,.3) 0 1px, transparent 1px 3px); }
+    .rain { position: absolute; inset: 0; overflow: hidden; opacity: .22; font-size: 12px; line-height: 13px; white-space: pre; color: #33ff66; }
+    main { position: relative; z-index: 1; width: 100%; display: grid; grid-template-columns: 112px 1fr; align-items: center; gap: 20px; padding: 28px; }
+    img { width: 112px; height: 112px; filter: drop-shadow(0 0 16px rgba(51,255,102,.45)); }
+    h1 { margin: 0 0 8px; font-size: 25px; line-height: 1.05; text-shadow: 0 0 8px rgba(51,255,102,.6); }
+    h1 span { color: #1f9e45; }
+    p { margin: 0; color: #9dffb8; font-size: 13.5px; line-height: 1.4; }
+    .tag { display: inline-block; margin-top: 14px; padding: 4px 9px; border: 1px solid #33ff66; font-size: 11px; font-weight: 800; letter-spacing: .08em; box-shadow: 0 0 10px rgba(51,255,102,.3); }
   </style>
 </head>
 <body>
+  <div class="rain" id="rain"></div>
   <main>
     <img src="../icons/icon-128.png" alt="">
     <div>
-      <h1>Calendar Alarm</h1>
-      <p>Google Calendar reminders that are difficult to miss.</p>
-      <span class="pill">PRIVATE BY DESIGN</span>
+      <h1><span>~$</span> cal-alarm</h1>
+      <p>Google Calendar meetings you can't miss.</p>
+      <span class="tag">NO CREDS · NO SERVERS</span>
     </div>
   </main>
+  <script>
+    // Static pseudo-random code rain for the background.
+    const glyphs = 'アカサタナハマヤラワ0123456789ABCDEF:<>{}[]$#';
+    let seed = 7; const rand = () => (seed = (seed * 16807) % 2147483647) / 2147483647;
+    const rows = [];
+    for (let r = 0; r < 22; r++) { let row = ''; for (let c = 0; c < 60; c++) row += rand() > .72 ? glyphs[Math.floor(rand() * glyphs.length)] : ' '; rows.push(row); }
+    document.getElementById('rain').textContent = rows.join('\n');
+  </script>
 </body>
 </html>
