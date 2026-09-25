@@ -11,7 +11,8 @@ Calendar Alarm makes Google Calendar reminders harder to miss. It watches suppor
 ## Features
 
 - High-visibility Chrome notifications.
-- Optional focused 900×600 alarm window with sound.
+- Optional full-screen alarm window with a repeating chime.
+- Keeps a pinned Google Calendar tab open (and awake) so reminders can fire.
 - Durable 30-second, 1-minute, 90-second, and 2-minute snoozes.
 - Open Calendar, close-only, and retry-safe actions.
 - Built-in test alarm and configuration screen.
@@ -20,7 +21,7 @@ Calendar Alarm makes Google Calendar reminders harder to miss. It watches suppor
 
 ## Important limitation
 
-Calendar Alarm amplifies reminders that Google Calendar surfaces in an open Calendar page. It does not access the Google Calendar API, independently read your calendar, or create reminder schedules. Keep Google Calendar open and configure its own event notifications correctly.
+Calendar Alarm amplifies reminders that Google Calendar surfaces in an open Calendar page. It does not access the Google Calendar API, independently read your calendar, or create reminder schedules. The extension keeps a Calendar tab open for you by default; configure its own event notifications correctly.
 
 Browser tab freezing and future Google Calendar implementation changes can prevent page-based detection from seeing a reminder. A persistent Chrome notification is requested, but operating systems ultimately control notification presentation.
 

@@ -1,0 +1,65 @@
+/* Shared "terminal" theme for the popup, settings page, and alarm window. */
+:root {
+  color-scheme: dark;
+  --bg: #020803;
+  --panel: rgba(0, 20, 6, .78);
+  --green: #33ff66;
+  --green-dim: #1f9e45;
+  --green-faint: #0c3a18;
+  --text: #d6ffe0;
+  --amber: #ffb000;
+  --red: #ff3b3b;
+  --cyan: #3cf2ff;
+  --glow: 0 0 6px rgba(51, 255, 102, .55);
+  font: 12.5px/1.5 "JetBrains Mono", "SF Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+* { box-sizing: border-box; }
+html { background: var(--bg); }
+body { margin: 0; color: var(--green); position: relative; overflow-x: hidden; }
+#rain { position: fixed; inset: 0; z-index: 0; width: 100%; height: 100%; opacity: .22; pointer-events: none; }
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+  background: repeating-linear-gradient(0deg, rgba(0, 0, 0, .28) 0 1px, transparent 1px 3px);
+}
+main { position: relative; z-index: 1; }
+a { color: var(--cyan); text-decoration: none; }
+a:hover, a:focus-visible { text-decoration: underline; }
+strong { color: var(--text); }
+.dim { color: var(--green-dim); }
+
+.logo { margin: 0; font-size: 17px; font-weight: 800; letter-spacing: .04em; text-shadow: var(--glow); }
+.logo .prompt { color: var(--green-dim); }
+.cursor { display: inline-block; width: .6em; height: 1em; margin-left: 2px; vertical-align: -2px; background: var(--green); animation: blink 1s steps(1) infinite; box-shadow: var(--glow); }
+.tagline { margin: 0; color: var(--green-dim); font-size: 11px; }
+
+.panel { margin: 12px 0; padding: 10px 12px; border: 1px solid var(--green-faint); background: var(--panel); box-shadow: inset 0 0 20px rgba(51, 255, 102, .05); }
+.panel-title { margin: 0 0 8px; color: var(--green-dim); font-size: 11px; letter-spacing: .08em; }
+.panel-title::before { content: "// "; }
+
+.run {
+  width: 100%;
+  padding: 11px;
+  border: 1px solid var(--green);
+  background: rgba(51, 255, 102, .08);
+  color: var(--green);
+  font: inherit;
+  font-size: 13.5px;
+  font-weight: 800;
+  letter-spacing: .1em;
+  cursor: pointer;
+  text-shadow: var(--glow);
+  box-shadow: 0 0 12px rgba(51, 255, 102, .2), inset 0 0 12px rgba(51, 255, 102, .12);
+  transition: background .15s, color .15s;
+}
+.run:hover, .run:focus-visible { background: var(--green); color: var(--bg); text-shadow: none; outline: none; }
+.cmd { padding: 8px; border: 1px solid var(--green-faint); background: transparent; color: var(--green); font: inherit; font-weight: 700; cursor: pointer; }
+.cmd::before { content: "$ "; color: var(--green-dim); }
+.cmd:hover, .cmd:focus-visible { border-color: var(--green); box-shadow: 0 0 10px rgba(51, 255, 102, .25); outline: none; }
+button:disabled { opacity: .5; cursor: wait; }
+
+@keyframes blink { 50% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .cursor { animation: none; } #rain { display: none; } }

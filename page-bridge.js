@@ -16,6 +16,11 @@
     else nativeAlert(message);
   };
 
+  const notificationText = (title, options) => {
+    const body = options && options.body;
+    return body ? `${title}: ${body}` : String(title || '');
+  };
+
   // Observe page-created Web Notifications while preserving the native API.
   // This cannot see notifications created solely inside Google's service worker;
   // Calendar's in-page reminder-dialog observer remains the other detection layer.
@@ -23,12 +28,22 @@
     const NativeNotification = window.Notification;
     window.Notification = new Proxy(NativeNotification, {
       construct(target, args, newTarget) {
-        const [title, options = {}] = args;
+        const [title, options] = args;
         const notification = Reflect.construct(target, args, newTarget === window.Notification ? target : newTarget);
-        const text = options.body ? `${title}: ${options.body}` : String(title || '');
-        post('PAGE_NOTIFICATION', text);
+        post('PAGE_NOTIFICATION', notificationText(title, options));
         return notification;
       }
     });
+  }
+
+  // Calendar can also show reminders via registration.showNotification() from
+  // the page, which never touches the Notification constructor.
+  const registrationProto = window.ServiceWorkerRegistration && window.ServiceWorkerRegistration.prototype;
+  if (registrationProto && typeof registrationProto.showNotification === 'function') {
+    const nativeShow = registrationProto.showNotification;
+    registrationProto.showNotification = function showNotification(title, options) {
+      post('PAGE_NOTIFICATION', notificationText(title, options));
+      return nativeShow.apply(this, arguments);
+    };
   }
 })();

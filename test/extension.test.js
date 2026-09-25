@@ -146,11 +146,15 @@ test('alarm UI offers a close-only action that dismisses the presentation', () =
   assert.match(script, /querySelector\('#close'\).*DISMISS_ALARM/s);
 });
 
-test('alarm UI remains compact enough for the 600px alarm window', () => {
+test('alarm UI uses the shared terminal theme', () => {
   const html = fs.readFileSync(path.join(root, 'interrupt.html'), 'utf8');
-  assert.match(html, /\.bell\s*{[^}]*22vh/s);
+  const theme = fs.readFileSync(path.join(root, 'terminal.css'), 'utf8');
+  assert.match(html, /href="terminal\.css"/);
   assert.match(html, /\.actions\s*{[^}]*gap:\s*12px/s);
-  assert.match(html, /html\s*{[^}]*background:\s*#102b4c/s);
+  assert.match(theme, /html\s*{[^}]*background:\s*var\(--bg\)/s);
+  for (const file of ['popup.html', 'options.html']) {
+    assert.match(fs.readFileSync(path.join(root, file), 'utf8'), /href="terminal\.css"/, file);
+  }
 });
 
 test('large alarm window uses Chrome native centering and requests attention', () => {
@@ -159,6 +163,7 @@ test('large alarm window uses Chrome native centering and requests attention', (
   assert.match(background, /height:\s*600/);
   assert.match(background, /focused:\s*true/);
   assert.match(background, /drawAttention:\s*true/);
+  assert.match(background, /state:\s*'maximized'/);
   assert.doesNotMatch(background, /\bleft:/);
   assert.doesNotMatch(background, /\btop:/);
 });
@@ -208,6 +213,110 @@ test('page bridge forwards Calendar notifications whose text is only an event ti
   assert.equal(notification.title, 'Design review');
   assert.equal(posted[0].type, 'PAGE_NOTIFICATION');
   assert.equal(posted[0].text, 'Design review: 10:00 AM – 10:30 AM');
+});
+
+test('page bridge forwards service-worker registration notifications', async () => {
+  const posted = [];
+  const shown = [];
+  class ServiceWorkerRegistration {
+    showNotification(title, options) { shown.push([title, options]); return Promise.resolve(); }
+  }
+  const window = {
+    alert: () => {},
+    ServiceWorkerRegistration,
+    postMessage: (message) => posted.push(message)
+  };
+  vm.runInNewContext(fs.readFileSync(path.join(root, 'page-bridge.js'), 'utf8'), {
+    window,
+    location: { origin: 'https://calendar.google.com' }
+  });
+  await new window.ServiceWorkerRegistration().showNotification('Standup', { body: '9:00 – 9:15 AM' });
+  assert.equal(shown.length, 1, 'native showNotification must still run');
+  assert.equal(posted[0].type, 'PAGE_NOTIFICATION');
+  assert.equal(posted[0].text, 'Standup: 9:00 – 9:15 AM');
+});
+
+function loadTabs() {
+  const context = { globalThis: {} };
+  vm.runInNewContext(fs.readFileSync(path.join(root, 'calendar-tabs.js'), 'utf8'), context);
+  return context.globalThis.CalendarAlarmTabs;
+}
+
+test('keep-open opens a pinned background Calendar tab when none exists', async () => {
+  const calls = [];
+  const chromeApi = {
+    tabs: {
+      query: async () => [],
+      create: async (props) => { calls.push(['create', props]); return { id: 5 }; },
+      update: async (id, changes) => calls.push(['update', id, changes])
+    },
+    storage: { local: { get: async () => ({}), set: async (value) => calls.push(['store', value]) } },
+    windows: { getAll: async () => [{ id: 1 }] }
+  };
+  assert.equal(await loadTabs().ensureCalendarTab(chromeApi), 'created');
+  assert.deepEqual(JSON.parse(JSON.stringify(calls)), [
+    ['create', { url: 'https://calendar.google.com/calendar/u/0/r', active: false, pinned: true, index: 0 }],
+    ['store', { keepOpenTabId: 5 }],
+    ['update', 5, { autoDiscardable: false }]
+  ]);
+});
+
+test('keep-open protects existing Calendar tabs from discarding without duplicating', async () => {
+  const calls = [];
+  const chromeApi = {
+    tabs: {
+      query: async () => [{ id: 8, url: 'https://calendar.google.com/calendar/u/0/r', autoDiscardable: true, discarded: true }],
+      create: async () => { throw new Error('should not create'); },
+      update: async (id, changes) => calls.push(['update', id, changes]),
+      reload: async (id) => calls.push(['reload', id])
+    },
+    windows: { getAll: async () => [{ id: 1 }] }
+  };
+  assert.equal(await loadTabs().ensureCalendarTab(chromeApi), 'existing');
+  assert.deepEqual(JSON.parse(JSON.stringify(calls)), [['update', 8, { autoDiscardable: false }], ['reload', 8]]);
+});
+
+test('keep-open does nothing when no browser window is open', async () => {
+  const chromeApi = {
+    tabs: { query: async () => [], create: async () => { throw new Error('should not create'); } },
+    storage: { local: { get: async () => ({}) } },
+    windows: { getAll: async () => [] }
+  };
+  assert.equal(await loadTabs().ensureCalendarTab(chromeApi), 'no-window');
+});
+
+test('keep-open recognizes a still-loading Calendar tab and never double-opens', async () => {
+  let creates = 0;
+  const chromeApi = {
+    tabs: {
+      query: async () => [],
+      get: async () => null,
+      create: async () => { creates += 1; return { id: 3 }; },
+      update: async () => {}
+    },
+    storage: { local: { get: async () => ({}), set: async () => {} } },
+    windows: { getAll: async () => [{ id: 1 }] }
+  };
+  const tabs = loadTabs();
+  await Promise.all([tabs.ensureCalendarTab(chromeApi), tabs.ensureCalendarTab(chromeApi)]);
+  assert.equal(creates, 1, 'concurrent checks must share one run');
+
+  chromeApi.tabs.query = async () => [{ id: 4, url: '', pendingUrl: 'https://calendar.google.com/calendar/u/0/r', autoDiscardable: false }];
+  assert.equal(await tabs.ensureCalendarTab(chromeApi), 'existing');
+  assert.equal(creates, 1);
+});
+
+test('keep-open trusts the tab it opened when URLs are not visible', async () => {
+  const chromeApi = {
+    tabs: {
+      query: async () => [{ id: 9 }],
+      get: async (id) => (id === 9 ? { id: 9 } : null),
+      create: async () => { throw new Error('should not create'); }
+    },
+    storage: { local: { get: async () => ({ keepOpenTabId: 9 }) } },
+    windows: { getAll: async () => [{ id: 1 }] }
+  };
+  assert.equal(await loadTabs().ensureCalendarTab(chromeApi), 'existing');
 });
 
 test('page bridge runs directly in the page MAIN world before Calendar starts', () => {

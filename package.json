@@ -1,6 +1,6 @@
 {
   "name": "calendar-alarm",
-  "version": "2.2.1",
+  "version": "2.3.0",
   "private": true,
   "description": "A privacy-first Google Calendar reminder amplifier.",
   "author": "Dustin Davis",
@@ -14,7 +14,7 @@
   },
   "scripts": {
     "test": "node --test test/*.test.js",
-    "check": "node --check alert-core.js && node --check calendar-tabs.js && node --check snooze.js && node --check background.js && node --check content.js && node --check page-bridge.js && node --check popup.js && node --check options.js && node --check interrupt.js && node --check scripts/build-release.mjs && npm test",
+    "check": "node --check alert-core.js && node --check calendar-tabs.js && node --check snooze.js && node --check background.js && node --check content.js && node --check page-bridge.js && node --check popup.js && node --check options.js && node --check interrupt.js && node --check rain.js && node --check scripts/build-release.mjs && npm test",
     "package": "node scripts/build-release.mjs",
     "release": "npm run check && npm run package"
   },

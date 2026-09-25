@@ -4,46 +4,74 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width">
   <title>Calendar Alarm privacy</title>
-  <link rel="stylesheet" href="common.css">
+  <link rel="stylesheet" href="terminal.css">
   <style>
-    main { max-width: 720px; margin: 32px auto; }
-    h2 { margin-top: 22px; font-size: 17px; }
-    li { margin: 6px 0; }
+    :root { font-size: 13.5px; }
+    main { max-width: 760px; margin: 0 auto; padding: 40px 20px 32px; }
+    .logo { font-size: 22px; }
+    .tagline { font-size: 12.5px; }
+    .panel { padding: 14px 18px; }
+    .panel p, .panel li { color: var(--green-dim); }
+    .panel p { margin: 6px 0; }
+    .panel ul { margin: 6px 0; padding: 0; list-style: none; }
+    .panel li { margin: 6px 0; padding-left: 2ch; text-indent: -2ch; }
+    .panel li::before { content: "- "; color: var(--green); }
+    .never { color: var(--green); text-shadow: var(--glow); font-weight: 800; }
+    .footer { margin-top: 16px; text-align: center; color: var(--green-dim); font-size: 12px; }
   </style>
 </head>
 <body>
+  <canvas id="rain" aria-hidden="true"></canvas>
   <main>
-    <header class="brand">
-      <img src="icons/icon-48.png" alt="">
-      <div>
-        <h1>Calendar Alarm privacy</h1>
-        <p class="muted">Private by design. No analytics, ads, accounts, or developer server.</p>
-        <p class="muted">Effective August 20, 2026. For questions, use the developer support contact on the Chrome Web Store listing.</p>
-      </div>
+    <header>
+      <h1 class="logo"><span class="prompt">~$</span> cat PRIVACY<span class="cursor"></span></h1>
+      <p class="tagline">private by design. no analytics, ads, accounts, or developer server.</p>
+      <p class="tagline">effective 2026-09-25. questions: use the developer support contact on the Chrome Web Store listing.</p>
     </header>
-    <section class="card">
-      <h2>What Calendar Alarm reads</h2>
-      <p>Calendar Alarm examines page-created alerts, page-created Web Notifications, and reminder dialogs displayed by calendar.google.com. Unrelated alert/dialog text is discarded immediately. Because Google Calendar uses page-created Web Notifications as its desktop reminder channel and their titles may contain only an event name, every page-created Web Notification on calendar.google.com is treated as a reminder signal.</p>
 
-      <h2>What stays on your device</h2>
+    <section class="panel">
+      <p class="panel-title">what calendar alarm reads</p>
+      <p>Calendar Alarm examines page-created alerts, page-created Web Notifications (including those shown through the page's service worker registration), and reminder dialogs displayed by calendar.google.com. Unrelated alert/dialog text is discarded immediately. Because Google Calendar uses page-created Web Notifications as its desktop reminder channel and their titles may contain only an event name, every page-created Web Notification on calendar.google.com is treated as a reminder signal.</p>
+      <p>It also reads whether Chrome notifications are allowed for calendar.google.com, to show setup status in the popup.</p>
+    </section>
+
+    <section class="panel">
+      <p class="panel-title">what stays on your device</p>
       <ul>
         <li>The most recent reminder text and local diagnostic timestamps.</li>
         <li>Reminder text temporarily stored while a snooze is pending.</li>
-        <li>Your enabled, alarm-window, and sound preferences. Chrome may sync these three settings through your Chrome profile.</li>
+        <li>The Calendar notification permission state and the ID of the Calendar tab the extension opened.</li>
+        <li>Your enabled, alarm-window, sound, and keep-Calendar-open preferences. Chrome may sync these four settings through your Chrome profile.</li>
       </ul>
+    </section>
 
-      <h2>What is never sent to us</h2>
-      <p>Calendar Alarm does not transmit reminder text or browsing activity to the developer or any third party. It has no analytics, advertising, tracking, account system, or developer-operated server. User data is not sold.</p>
+    <section class="panel">
+      <p class="panel-title">what is never sent to us</p>
+      <p>Calendar Alarm does not transmit reminder text or browsing activity to the developer or any third party. It has no analytics, advertising, tracking, account system, or developer-operated server. It never uses your Google credentials or the Google Calendar API. <span class="never">User data is not sold.</span></p>
+    </section>
 
-      <h2>Retention and deletion</h2>
+    <section class="panel">
+      <p class="panel-title">retention and deletion</p>
       <p>A pending snooze is deleted after it fires. Other local data remains until replaced, cleared through Chrome, or removed when you uninstall the extension.</p>
+    </section>
 
-      <h2>Permissions</h2>
-      <p><strong>Alarms</strong> schedules snoozes. <strong>Notifications</strong> shows persistent reminders. <strong>Storage</strong> saves preferences and local reminder state. Access to calendar.google.com is limited to detecting reminders on that site.</p>
+    <section class="panel">
+      <p class="panel-title">permissions</p>
+      <ul>
+        <li><strong>alarms</strong> schedules snoozes and a once-a-minute check that a Calendar tab is open.</li>
+        <li><strong>notifications</strong> shows persistent reminders.</li>
+        <li><strong>storage</strong> saves preferences and local reminder state.</li>
+        <li><strong>calendar.google.com</strong> access is limited to detecting reminders on that site and, when "keep Calendar open" is enabled, finding, opening, or keeping awake a Calendar tab. No other sites are accessed.</li>
+      </ul>
+    </section>
 
-      <h2>Limited Use</h2>
+    <section class="panel">
+      <p class="panel-title">limited use</p>
       <p>Calendar Alarm's use of information received from Google services adheres to the Chrome Web Store User Data Policy, including the Limited Use requirements. Data is used only for the extension's disclosed reminder-amplification feature.</p>
     </section>
+
+    <p class="footer">no creds. no servers. no tracking.</p>
   </main>
+  <script src="rain.js"></script>
 </body>
 </html>

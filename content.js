@@ -1,6 +1,8 @@
 (() => {
   const core = globalThis.CalendarAlarmCore;
-  const seenNodes = new WeakSet();
+  const DIALOGS = '[role="dialog"], [role="alertdialog"]';
+  // Calendar may reuse a dialog node for later reminders, so remember the text we reported.
+  const reportedText = new WeakMap();
 
   function report(text, source) {
     chrome.runtime.sendMessage({ type: 'CALENDAR_ALARM', text: core.normalizeText(text), source }).catch(() => {});
@@ -8,21 +10,29 @@
 
   function inspect(root) {
     const candidates = [];
-    if (root instanceof Element && root.matches('[role="dialog"], [role="alertdialog"]')) candidates.push(root);
-    if (root.querySelectorAll) candidates.push(...root.querySelectorAll('[role="dialog"], [role="alertdialog"]'));
+    if (root instanceof Element) {
+      const enclosing = root.closest(DIALOGS);
+      if (enclosing) candidates.push(enclosing);
+    }
+    if (root.querySelectorAll) candidates.push(...root.querySelectorAll(DIALOGS));
     for (const dialog of candidates) {
-      if (seenNodes.has(dialog)) continue;
+      const text = core.normalizeText(dialog.innerText || dialog.textContent);
+      if (reportedText.get(dialog) === text) continue;
       const actions = [...dialog.querySelectorAll('button, [role="button"]')].map((node) => node.textContent || node.getAttribute('aria-label') || '');
-      if (!core.looksLikeCalendarAlarm(dialog.innerText || dialog.textContent, actions)) continue;
-      seenNodes.add(dialog);
-      report(dialog.innerText || dialog.textContent, 'calendar-dialog');
+      if (!core.looksLikeCalendarAlarm(text, actions)) continue;
+      reportedText.set(dialog, text);
+      report(text, 'calendar-dialog');
     }
   }
 
   function start() {
     inspect(document);
     new MutationObserver((records) => {
-      for (const record of records) for (const node of record.addedNodes) if (node.nodeType === Node.ELEMENT_NODE) inspect(node);
+      for (const record of records) {
+        // Content is often filled into an already-inserted dialog.
+        if (record.target.nodeType === Node.ELEMENT_NODE && record.target.closest(DIALOGS)) inspect(record.target);
+        for (const node of record.addedNodes) if (node.nodeType === Node.ELEMENT_NODE) inspect(node);
+      }
     }).observe(document.documentElement, { childList: true, subtree: true });
   }
 
@@ -37,5 +47,10 @@
   if (document.documentElement) start();
   else document.addEventListener('DOMContentLoaded', start, { once: true });
 
-  chrome.runtime.sendMessage({ type: 'CALENDAR_TAB_ACTIVE' }).catch(() => {});
+  const checkIn = () => chrome.runtime.sendMessage({
+    type: 'CALENDAR_TAB_ACTIVE',
+    notificationPermission: typeof Notification === 'function' ? Notification.permission : 'unsupported'
+  }).catch(() => {});
+  checkIn();
+  setInterval(checkIn, 5 * 60 * 1000);
 })();

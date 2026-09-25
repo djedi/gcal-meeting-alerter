@@ -1,1 +1,88 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>Calendar Alarm settings</title><link rel="stylesheet" href="common.css"><style>main{max-width:620px;margin:32px auto}</style></head><body><main><header class="brand"><img src="icons/icon-48.png" alt=""><div><h1>Calendar Alarm settings</h1><p class="muted">Private by design. Event text stays in your browser.</p></div></header><section class="card"><label class="toggle"><span><strong>Enable Calendar Alarm</strong><br><small class="muted">Detect supported Google Calendar reminder dialogs.</small></span><input id="enabled" type="checkbox"></label><label class="toggle"><span><strong>Show alarm window</strong><br><small class="muted">Open a focused, persistent reminder in addition to Chrome’s notification.</small></span><input id="alarmWindow" type="checkbox"></label><label class="toggle"><span><strong>Play alarm tones</strong><br><small class="muted">Sound plays from the alarm window when browser autoplay policy permits it.</small></span><input id="playSound" type="checkbox"></label></section><section class="card"><h2>Google Calendar still controls the schedule</h2><p class="muted">Calendar Alarm amplifies reminders Calendar displays; it does not read your account or create reminder schedules. Keep Calendar open, allow notifications for calendar.google.com, and verify each calendar or event has a notification configured.</p></section><p id="saved" role="status" aria-live="polite"></p><p class="footer"><a href="privacy.html" target="_blank">Read the privacy policy</a></p></main><script src="options.js"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>Calendar Alarm settings</title>
+  <link rel="stylesheet" href="terminal.css">
+  <style>
+    :root { font-size: 13.5px; }
+    main { max-width: 680px; margin: 0 auto; padding: 40px 20px 32px; }
+    .logo { font-size: 22px; }
+    .tagline { font-size: 12.5px; }
+    .panel { padding: 14px 18px; }
+
+    label.toggle { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: start; padding: 12px 0; border-bottom: 1px dashed var(--green-faint); cursor: pointer; }
+    label.toggle:last-child { border-bottom: 0; }
+    label.toggle input { appearance: none; margin: 0; font: inherit; color: var(--red); cursor: pointer; font-weight: 800; }
+    label.toggle input::before { content: "[ ]"; }
+    label.toggle input:checked { color: var(--green); text-shadow: var(--glow); }
+    label.toggle input:checked::before { content: "[x]"; }
+    label.toggle input:focus-visible { outline: 1px dashed var(--cyan); outline-offset: 2px; }
+    label.toggle strong { display: block; }
+    label.toggle small { display: block; color: var(--green-dim); font-size: 12px; }
+    label.toggle code { color: var(--cyan); }
+
+    .panel p { margin: 6px 0; color: var(--green-dim); }
+    .panel p strong { color: var(--text); }
+    .opt { display: grid; grid-template-columns: 11ch 1fr; gap: 10px; margin: 8px 0 0; }
+    .opt dt { font-weight: 800; }
+    .opt dd { margin: 0; color: var(--green-dim); }
+    .opt .best { color: var(--green); text-shadow: var(--glow); }
+    .opt .meh { color: var(--amber); }
+    .opt .no { color: var(--red); }
+
+    #saved { min-height: 1.5em; margin: 0; }
+    .footer { margin-top: 16px; text-align: center; color: var(--green-dim); font-size: 12px; }
+  </style>
+</head>
+<body>
+  <canvas id="rain" aria-hidden="true"></canvas>
+  <main>
+    <header>
+      <h1 class="logo"><span class="prompt">~$</span> cal-alarm --config<span class="cursor"></span></h1>
+      <p class="tagline">private by design. event text never leaves your browser.</p>
+    </header>
+
+    <section class="panel">
+      <p class="panel-title">runtime flags</p>
+      <label class="toggle">
+        <input id="enabled" type="checkbox">
+        <span><strong>--enabled</strong><small>Detect Google Calendar reminders and raise the alarm.</small></span>
+      </label>
+      <label class="toggle">
+        <input id="alarmWindow" type="checkbox">
+        <span><strong>--alarm-window</strong><small>Open a full-screen, focused alarm window in addition to Chrome's notification.</small></span>
+      </label>
+      <label class="toggle">
+        <input id="playSound" type="checkbox">
+        <span><strong>--sound</strong><small>Chime repeatedly from the alarm window until you respond (max 2 min).</small></span>
+      </label>
+      <label class="toggle">
+        <input id="keepCalendarOpen" type="checkbox">
+        <span><strong>--keep-calendar-open</strong><small>Open a pinned background Calendar tab if none is open and keep Chrome from putting it to sleep. Reminders only fire from an open Calendar tab.</small></span>
+      </label>
+    </section>
+
+    <section class="panel">
+      <p class="panel-title">recommended: gcal.notify = "Desktop notifications"</p>
+      <p>In <a href="https://calendar.google.com/calendar/u/0/r/settings" target="_blank" rel="noopener">Calendar settings → Notification settings</a>, set <strong>Notifications</strong> to:</p>
+      <dl class="opt">
+        <dt class="best">Desktop</dt><dd>Recommended. Every reminder Calendar shows is caught.</dd>
+        <dt class="meh">Alerts</dt><dd>Works only when Calendar's wording is recognized (e.g. "starts in").</dd>
+        <dt class="no">Off</dt><dd>Nothing is shown in the browser, so there's nothing to detect.</dd>
+      </dl>
+    </section>
+
+    <section class="panel">
+      <p class="panel-title">how it works</p>
+      <p>Calendar Alarm amplifies reminders Google Calendar already shows. It never touches your Google account, the Calendar API, or any server. Allow notifications for calendar.google.com and make sure each calendar or event has a notification configured.</p>
+    </section>
+
+    <p id="saved" role="status" aria-live="polite"></p>
+    <p class="footer"><a href="privacy.html" target="_blank">privacy policy</a> · no creds. no servers. no tracking.</p>
+  </main>
+  <script src="rain.js"></script>
+  <script src="options.js"></script>
+</body>
+</html>
